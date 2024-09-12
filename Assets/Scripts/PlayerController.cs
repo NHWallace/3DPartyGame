@@ -34,14 +34,15 @@ public class PlayerController : MonoBehaviour {
             playerVelocity.y = 0f;
         }
 
+        Vector2 deltaInput = inputManager.GetMouseDelta();
         Vector2 movement = inputManager.GetPlayerMovement();
         Vector3 move = new Vector3(movement.x, 0f, movement.y);
         move = cameraTransform.forward * move.z + cameraTransform.right * move.x;
         move.y = 0f; // Ensure above operation does not alter y
         controller.Move(move * Time.deltaTime * playerSpeed);
 
-        if (move != Vector3.zero) {
-            gameObject.transform.forward = move;
+        if (deltaInput != Vector2.zero) {
+            gameObject.transform.forward = new Vector3 (cameraTransform.forward.x, 0f, cameraTransform.forward.z);
         }
 
         // Changes the height position of the player..
