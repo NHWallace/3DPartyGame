@@ -19,6 +19,8 @@ public class PlayerController : NetworkBehaviour {
     private float gravityValue = -9.81f;
     [SerializeField]
     private GameObject playerCamera;
+    [SerializeField]
+    private Animator playerAnimator;
 
     private CharacterController controller;
     private Vector3 playerVelocity;
@@ -66,9 +68,13 @@ public class PlayerController : NetworkBehaviour {
         // Changes the height position of the player..
         if (inputManager.PlayerJumpedThisFrame() && groundedPlayer) {
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            playerAnimator.SetTrigger("Jump");
         }
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
+
+        playerAnimator.SetFloat("Velocity", move.magnitude);
+        playerAnimator.SetBool("Grounded", groundedPlayer);
     }
 }
