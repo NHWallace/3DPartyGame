@@ -41,7 +41,8 @@ public class PlayerController : MonoBehaviour {
         move.y = 0f; // Ensure above operation does not alter y
         controller.Move(move * Time.deltaTime * playerSpeed);
 
-        if (deltaInput != Vector2.zero) {
+        // Change direction player faces on mouse movement or WASD movement
+        if (deltaInput != Vector2.zero || movement != Vector2.zero) {
             gameObject.transform.forward = new Vector3 (cameraTransform.forward.x, 0f, cameraTransform.forward.z);
         }
 
