@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FishNet.Connection;
+using FishNet.Object;
 
 
 // Basis of controller provided by example by Unity at https://docs.unity3d.com/ScriptReference/CharacterController.Move.html
 // Example has been modified to use the new input system
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerController : MonoBehaviour {
+public class PlayerController : NetworkBehaviour {
 
     [SerializeField]
     private float playerSpeed = 2.0f;
@@ -15,12 +17,27 @@ public class PlayerController : MonoBehaviour {
     private float jumpHeight = 1.0f;
     [SerializeField]
     private float gravityValue = -9.81f;
+    [SerializeField]
+    private GameObject playerCamera;
 
     private CharacterController controller;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
     private InputManager inputManager;
     private Transform cameraTransform;
+
+    public override void OnStartClient() {
+        base.OnStartClient();
+
+        if (base.IsOwner) {
+            // Enable Cinemachine camera to track this player
+            playerCamera.SetActive(true);
+        }
+        else {
+            // Prevent this player from controlling the characters of other players
+            gameObject.GetComponent<PlayerController>().enabled = false;
+        }
+    }
 
     private void Start() {
         controller = gameObject.GetComponent<CharacterController>();
