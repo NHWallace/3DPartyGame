@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -10,25 +11,25 @@ public class TileController : MonoBehaviour
     void Start()
     {
         tileCollider = GetComponent<Collider>(); // Get the Collider component
-        
-        // Check if the Rigidbody already exists, otherwise add it
-        rb = GetComponent<Rigidbody>();
-        if (rb == null)
-        {
-            rb = gameObject.AddComponent<Rigidbody>(); // Add Rigidbody to allow falling
+        if(canFall){
+            tileCollider.isTrigger = true;
         }
 
+        // Check if the Rigidbody already exists, otherwise add it
+        rb = GetComponent<Rigidbody>() ?? gameObject.AddComponent<Rigidbody>();
         rb.isKinematic = true; // Initially set to kinematic to prevent falling
+
     }
 
     public void SetFallThrough()
     {
         canFall = true; // Allow this tile to fall through
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && canFall)
+        if (canFall && other.CompareTag("Player") )
         {
             Debug.Log("Player stepped on the tile!"); // Debug output
             StartCoroutine(FallThrough());
