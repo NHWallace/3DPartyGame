@@ -3,7 +3,12 @@ guid: 8a8160a506a4c2449ba161c0d0fef914
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _addedNetworkObject: {instanceID: 0}
+  - _networkObjectCache: {instanceID: 0}
+  - playerCamera: {fileID: 919132149155446097, guid: 593045b4d85341b49abf41f111499377,
+      type: 3}
+  - playerAnimator: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
